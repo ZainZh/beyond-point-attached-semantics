@@ -1,0 +1,7 @@
+{
+  "Body": ["Body", "Cover", "Knob"],
+  "Handle": ["Handle"],
+  "Spout": ["Spout"],
+  "__ignore__": ["Other", "Footring", "Support Leg"]
+}
+

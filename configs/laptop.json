@@ -1,0 +1,39 @@
+{
+  "Bottom Side": [
+    "Laptop Computer > Bottom Side",
+    "Laptop Computer > Bottom Side > Casing",
+    "Laptop Computer > Bottom Side > Keyboard",
+    "Laptop Computer > Bottom Side > Keyboard > Keys",
+    "Laptop Computer > Bottom Side > Keyboard > Backplate",
+    "Laptop Computer > Bottom Side > Control Pad",
+    "Laptop Computer > Bottom Side > Control Pad > Touchpad",
+    "Laptop Computer > Bottom Side > Control Pad > Buttons",
+    "Laptop Computer > Bottom Side > Buttons",
+    "Laptop Computer > Bottom Side > Foot Pads",
+    "Laptop Computer > Bottom Side > Ports",
+    "Keyboard",
+    "Keys",
+    "Backplate",
+    "Control Pad",
+    "Touchpad",
+    "Buttons",
+    "Foot Pads",
+    "Ports"
+  ],
+  "Screen Side": [
+    "Laptop Computer > Screen Side",
+    "Laptop Computer > Screen Side > Casing",
+    "Laptop Computer > Screen Side > Screen",
+    "Laptop Computer > Screen Side > Camera",
+    "Screen",
+    "Camera"
+  ],
+  "__ignore__": [
+    "Laptop Computer > Hinge",
+    "Laptop Computer > Charging Cable",
+    "Laptop Computer > Other",
+    "Hinge",
+    "Charging Cable",
+    "Other"
+  ]
+}

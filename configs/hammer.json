@@ -1,0 +1,19 @@
+{
+  "Handle": [
+   "Shaft",
+    "Grip",
+    "Anti-Slip Material",
+    "Handle End",
+    "Decoration",
+    "Connector"
+  ],
+  "Head": [
+    "Hammer Head",
+    "Nail Puller",
+    "Connector"
+  ],
+  "__ignore__": [
+    "Other"
+  ]
+
+}
