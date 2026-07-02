@@ -1,163 +1,53 @@
-# Object-Centric Continuous Semantic Field
+# Academic Project Page Template
+This is an academic paper project page template.
 
-This is a cleaned release package for training and using the object-centric
-continuous semantic field described in our CoRL submission. The code keeps only
-the components needed for:
 
-- training a PartNext-supervised semantic field,
-- querying the trained field to export `xyz + semantic embedding` point clouds,
-- visualizing learned semantic embeddings and support/query points,
-- integrating exported semantic point clouds with RoboTwin/DP3.
+Example project pages built using this template are:
+- https://horwitz.ai/probex
+- https://vision.huji.ac.il/probegen
+- https://horwitz.ai/mother
+- https://horwitz.ai/spectral_detuning
+- https://vision.huji.ac.il/ladeda
+- https://vision.huji.ac.il/dsire
+- https://horwitz.ai/podd
+- https://dreamix-video-editing.github.io
+- https://horwitz.ai/conffusion
+- https://horwitz.ai/3d_ads/
+- https://vision.huji.ac.il/ssrl_ad
+- https://vision.huji.ac.il/deepsim
 
-The original research workspace contained many exploratory branches. They are
-intentionally not included here.
 
-## Repository Layout
 
-```text
-configs/                         # canonical part alias configs
-models/                          # semantic-field model and Utonia feature extractor
-my_datasets/                     # PartNext semantic-field dataset loader
-myutils/                         # small training/runtime utilities
-train/                           # semantic-field training entry point
-tools/                           # qualitative visualization tools
-scripts/                         # release-friendly wrappers and export script
-integrations/dp3/                # minimal RoboTwin/DP3 integration notes and scripts
-```
+## Start using the template
+To start using the template click on `Use this Template`.
 
-## Environment
+The template uses html for controlling the content and css for controlling the style. 
+To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
 
-Install PyTorch for your CUDA version first, then install the remaining Python
-dependencies:
+**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
 
-```bash
-pip install -r requirements.txt
-```
+## Components
+- Teaser video
+- Images Carousel
+- Youtube embedding
+- Video Carousel
+- PDF Poster
+- Bibtex citation
 
-The code expects the Utonia package/checkpoint to be available. You can either
-install Utonia in the Python environment or place a checkout at:
+## Tips:
+- The `index.html` file contains comments instructing you what to replace, you should follow these comments.
+- The `meta` tags in the `index.html` file are used to provide metadata about your paper 
+(e.g. helping search engine index the website, showing a preview image when sharing the website, etc.)
+- The resolution of images and videos can usually be around 1920-2048, there rarely a need for better resolution that take longer to load. 
+- All the images and videos you use should be compressed to allow for fast loading of the website (and thus better indexing by search engines). For images, you can use [TinyPNG](https://tinypng.com), for videos you can need to find the tradeoff between size and quality.
+- When using large video files (larger than 10MB), it's better to use youtube for hosting the video as serving the video from the website can take time.
+- Using a tracker can help you analyze the traffic and see where users came from. [statcounter](https://statcounter.com) is a free, easy to use tracker that takes under 5 minutes to set up. 
+- This project page can also be made into a github pages website.
+- Replace the favicon to one of your choosing (the default one is of the Hebrew University). 
+- Suggestions, improvements and comments are welcome, simply open an issue or contact me. You can find my contact information at [https://horwitz.ai](https://horwitz.ai)
 
-```text
-include/Utonia
-```
+## Acknowledgments
+Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
 
-The default Utonia checkpoint path is:
-
-```text
-~/.cache/utonia/ckpt/utonia.pth
-```
-
-You can override it with `--utonia-checkpoint` or the `UTONIA_CHECKPOINT`
-environment variable used by the shell wrappers.
-
-## Data
-
-Semantic field training uses PartNext object models with part annotations. The
-expected dataset root is the PartNext mesh directory, e.g.
-
-```text
-/path/to/PartNext_mesh/
-  Hammer/
-  Mug/
-  Spoon/
-  ...
-```
-
-Part aliases are controlled by JSON files in `configs/`. For example,
-`configs/hammer.json` maps raw PartNext labels to the category-specific part
-label space used by the field.
-
-## Train a Semantic Field
-
-Example for a hammer field:
-
-```bash
-DATASET_ROOT=/path/to/PartNext_mesh \
-UTONIA_CHECKPOINT=~/.cache/utonia/ckpt/utonia.pth \
-CATEGORIES=Hammer \
-ALIAS_CONFIG=configs/hammer.json \
-RUN_NAME=hammer_semantic_field \
-WANDB_MODE=disabled \
-bash scripts/train_semantic_field.sh
-```
-
-The wrapper calls:
-
-```bash
-python -m train.train_utonia_universal_field --train-mode semantic ...
-```
-
-Important outputs:
-
-- `best.pt`: best validation checkpoint,
-- `last.pt`: latest checkpoint,
-- `canonical_labels.json`: part label names used by the checkpoint.
-
-## Export Semantic Point Clouds
-
-After training, query the frozen field on an object point cloud:
-
-```bash
-python scripts/export_semantic_point_cloud.py \
-  --checkpoint outputs/semantic_field/hammer_semantic_field/best.pt \
-  --input-point-cloud /path/to/object_point_cloud.npy \
-  --output-npz outputs/hammer_semantic_point_cloud.npz \
-  --num-query-points 256 \
-  --device cuda
-```
-
-The output `.npz` contains:
-
-- `semantic_point_cloud`: shape `[N, 3 + D]`, where the first three channels are
-  world/object coordinates and the remaining channels are semantic embeddings,
-- `query_xyz`,
-- `sem_embeddings`,
-- `sem_logits`,
-- `sem_probabilities`,
-- `pred_labels`,
-- `confidence`,
-- `label_names`.
-
-This is the representation consumed by downstream point-cloud policies.
-
-## Visualization
-
-Visualize predictions and semantic embedding PCA on PartNext samples:
-
-```bash
-CHECKPOINT=outputs/semantic_field/hammer_semantic_field/best.pt \
-DATASET_ROOT=/path/to/PartNext_mesh \
-bash scripts/visualize_semantic_field.sh
-```
-
-Visualize support points and labeled query points used during training:
-
-```bash
-DATASET_ROOT=/path/to/PartNext_mesh \
-CATEGORIES=Hammer \
-ALIAS_CONFIG=configs/hammer.json \
-bash scripts/visualize_support_query_points.sh
-```
-
-The support/query visualizer writes an interactive HTML file by default.
-
-## RoboTwin / DP3 Integration
-
-The semantic field is used as a frozen object-level representation module. At
-each policy step:
-
-1. obtain an object point cloud from RoboTwin or real RGB-D observations,
-2. use it as the support condition for the semantic field,
-3. resample object query locations,
-4. export `semantic_point_cloud_A`, `semantic_point_cloud_B`, ... as
-   `xyz + semantic embedding`,
-5. provide those arrays as additional point-cloud modalities to DP3.
-
-See `integrations/dp3/README.md` for the concrete file-copy steps, Hydra config patch, preprocessing command, and training command used with RoboTwin/DP3.
-
-## Notes
-
-- This release focuses on the semantic-field branch. Exploratory occupancy,
-  NDF, and geometric-field branches were intentionally removed.
-- Checkpoints and datasets are not included.
-- `open3d` is only needed for the optional Open3D visualization backend.
+## Website License
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.

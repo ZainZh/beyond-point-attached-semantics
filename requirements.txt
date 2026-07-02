@@ -1,8 +1,0 @@
-torch
-numpy
-trimesh
-wandb
-plotly
-h5py
-zarr
-scipy
