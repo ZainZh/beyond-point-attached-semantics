@@ -12,6 +12,7 @@ the components needed for:
 The original research workspace contained many exploratory branches. They are
 intentionally not included here.
 
+![teaser.png](/Images/teaser.png)
 ## Repository Layout
 
 ```text
@@ -129,7 +130,7 @@ CHECKPOINT=outputs/semantic_field/hammer_semantic_field/best.pt \
 DATASET_ROOT=/path/to/PartNext_mesh \
 bash scripts/visualize_semantic_field.sh
 ```
-
+![more_result.png](Images/more_result.png)
 Visualize support points and labeled query points used during training:
 
 ```bash
