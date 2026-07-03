@@ -57,7 +57,7 @@ a:hover {
   text-transform: uppercase;
 }
 
-.publication-title {
+.title.publication-title {
   max-width: 980px;
   margin: 0 auto 1.25rem;
   color: var(--ink);
@@ -350,7 +350,7 @@ a:hover {
 }
 
 .resource-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .resource-card {
@@ -385,7 +385,12 @@ a:hover {
   border-radius: 8px;
   background: #101820;
   color: #f5f7fa;
+}
+
+.bibtex,
+.bibtex code {
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
   word-break: break-word;
 }
 
@@ -410,7 +415,7 @@ a:hover {
     padding-top: 2.5rem;
   }
 
-  .publication-title {
+  .title.publication-title {
     font-size: 2.05rem;
   }
 
@@ -441,7 +446,7 @@ a:hover {
 }
 
 @media screen and (max-width: 460px) {
-  .publication-title {
+  .title.publication-title {
     font-size: 1.75rem;
   }
 

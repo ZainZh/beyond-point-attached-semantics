@@ -5,6 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 HTML = ROOT / "index.html"
+CSS = ROOT / "static/css/index.css"
 
 
 class AnchorParser(HTMLParser):
@@ -33,6 +34,7 @@ class ProjectPageTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.html = HTML.read_text(encoding="utf-8")
+        cls.css = CSS.read_text(encoding="utf-8")
 
     def test_contains_current_paper_identity(self):
         required = [
@@ -119,6 +121,24 @@ class ProjectPageTest(unittest.TestCase):
         self.assertNotIn('<span>Data</span>', self.html)
         self.assertNotIn('<strong>Data</strong>', self.html)
         self.assertNotIn('Dataset link can be added here', self.html)
+
+
+    def test_responsive_css_overrides_framework_title_and_bibtex_wrap(self):
+        self.assertIn(".title.publication-title", self.css)
+        self.assertRegex(
+            self.css,
+            r"@media screen and \(max-width: 768px\)[\s\S]*\.title\.publication-title",
+        )
+        self.assertRegex(
+            self.css,
+            r"@media screen and \(max-width: 460px\)[\s\S]*\.title\.publication-title",
+        )
+        self.assertRegex(
+            self.css,
+            r"\.resource-grid\s*\{\s*grid-template-columns: repeat\(3,",
+        )
+        self.assertIn(".bibtex code", self.css)
+        self.assertIn("overflow-wrap: anywhere", self.css)
 
     def test_no_duplicate_ids(self):
         ids = re.findall(r'id="([^"]+)"', self.html)
