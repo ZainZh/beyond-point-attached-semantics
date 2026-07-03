@@ -42,8 +42,9 @@ class ProjectPageTest(unittest.TestCase):
             "Object-Centric Semantic Fields for Generalizable Manipulation",
             "Zheng SUN",
             "Lerong ZHANG",
-            "Quentin ROUXEL",
             "Zhihao LI",
+            "Zhuo LI",
+            "Quentin ROUXEL",
             "Fei CHEN",
             "The Chinese University of Hong Kong",
             "CoRL 2026",
@@ -70,7 +71,7 @@ class ProjectPageTest(unittest.TestCase):
 
     def test_references_current_assets(self):
         required_assets = [
-            "static/pdfs/Beyond_Point_Attached_Semantics__Object_Centric_Semantic_Fields_for_Generalizable_Manipulation (2).pdf",
+            "static/pdfs/beyond-point-attached-semantics.pdf",
             "static/videos/full_video.mp4",
             "static/images/figure1-teaser.png",
             "static/images/figure2-method-overview.png",
@@ -96,6 +97,8 @@ class ProjectPageTest(unittest.TestCase):
             "SpectralGrasp",
             "RPISM",
             "sample.pdf",
+            "Beyond_Point_Attached_Semantics__Object_Centric_Semantic_Fields_for_Generalizable_Manipulation (2).pdf",
+            "Beyond_Point_Attached_Semantics__Object_Centric_Semantic_Fields_for_Generalizable_Manipulation (3).pdf",
             "carousel1.mp4",
             "carousel2.mp4",
             "carousel3.mp4",
