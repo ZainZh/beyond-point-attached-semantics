@@ -3,216 +3,88 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Project page for Beyond Point-Attached Semantics: Object-Centric Semantic Fields for Generalizable Manipulation, a CoRL 2026 paper on queryable semantic fields for generalizable robotic manipulation.">
-  <meta name="keywords" content="object-centric representation learning, continuous semantic fields, generalizable robotic manipulation, semantic point clouds, robot learning, CoRL 2026">
-  <meta name="author" content="Zheng SUN, Lerong ZHANG, Zhihao LI, Zhuo LI, Quentin ROUXEL, Fei CHEN">
-
+  <meta name="description" content="Anonymous supplementary material: object-centric semantic fields for robust robotic manipulation. Experimental videos, method overview, and results.">
+  <meta name="robots" content="noindex, nofollow">
   <meta property="og:title" content="Beyond Point-Attached Semantics">
-  <meta property="og:description" content="Object-centric continuous semantic fields for queryable part-aware 3D representations in generalizable manipulation.">
-  <meta property="og:url" content="https://zainzh.github.io/beyond-point-attached-semantics/">
-  <meta property="og:image" content="static/images/figure1-teaser.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <meta name="twitter:title" content="Beyond Point-Attached Semantics">
-  <meta name="twitter:description" content="Object-centric continuous semantic fields for queryable part-aware 3D representations in generalizable manipulation.">
-  <meta name="twitter:image" content="static/images/figure1-teaser.png">
-  <meta name="twitter:card" content="summary_large_image">
-
-  <title>Beyond Point-Attached Semantics: Object-Centric Semantic Fields for Generalizable Manipulation</title>
-  <link rel="icon" type="image/png" href="static/images/figure1-teaser.png">
+  <meta property="og:description" content="Stable Object-Centric Semantic Fields for Robust Manipulation">
+  <meta property="og:image" content="static/images/first.png">
+  <title>Beyond Point-Attached Semantics: Stable Object-Centric Semantic Fields for Robust Manipulation</title>
   <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="static/css/index.css">
-  <script defer src="static/js/fontawesome.all.min.js"></script>
 </head>
 <body>
-  <main>
-    <section class="hero publication-hero">
-      <div class="hero-body">
-        <div class="container is-max-desktop has-text-centered">
-          <h1 class="title is-1 publication-title">Beyond Point-Attached Semantics:<br>Object-Centric Semantic Fields for Generalizable Manipulation</h1>
-
-          <div class="is-size-5 publication-authors">
-            <span class="author-block"><a href="https://github.com/ZainZh" target="_blank" rel="noopener">Zheng SUN</a><sup>1</sup></span>
-            <span class="author-block">Lerong ZHANG<sup>1</sup></span>
-            <span class="author-block">Zhihao LI<sup>1</sup></span>
-            <span class="author-block">Zhuo LI<sup>1</sup></span>
-            <span class="author-block">Quentin ROUXEL<sup>1</sup></span>
-            <span class="author-block"><a href="https://www4.mae.cuhk.edu.hk/peoples/chen-fei/" target="_blank" rel="noopener">Fei CHEN</a><sup>1</sup></span>
-          </div>
-
-          <div class="publication-affiliation">
-            <span><sup>1</sup>The Chinese University of Hong Kong, China</span>
-          </div>
-
-          <div class="publication-links" aria-label="Project links">
-            <a href="static/pdfs/beyond-point-attached-semantics.pdf" target="_blank" rel="noopener" class="button is-dark is-rounded">
-              <span class="icon"><i class="fas fa-file-pdf"></i></span>
-              <span>Paper</span>
-            </a>
-            <a href="#main-video" class="button is-dark is-rounded">
-              <span class="icon"><i class="fas fa-play"></i></span>
-              <span>Video</span>
-            </a>
-            <a href="https://github.com/ZainZh/beyond-point-attached-semantics" target="_blank" rel="noopener" class="button is-dark is-rounded">
-              <span class="icon"><i class="fab fa-github"></i></span>
-              <span>Code</span>
-            </a>
-          </div>
-        </div>
+<main>
+  <header class="publication-hero">
+    <div class="hero-body container is-max-desktop has-text-centered">
+      <p class="review-label">Anonymous supplementary material</p>
+      <h1 class="title publication-title">Beyond Point-Attached Semantics:<br>Stable Object-Centric Semantic Fields for Robust Manipulation</h1>
+      <nav class="publication-links" aria-label="Page sections">
+        <a class="button is-dark" href="#real-world-videos">Experiment Videos</a>
+        <a class="button is-dark" href="#method">Method</a>
+        <a class="button is-dark" href="#results">Results</a>
+      </nav>
+    </div>
+  </header>
+  <section class="section teaser-section" id="main-video">
+    <div class="container is-max-desktop">
+      <video controls muted playsinline preload="metadata" class="teaser-video" aria-label="Grasp Mug experiment">
+        <source src="static/videos/mug0.mp4" type="video/mp4">
+      </video>
+      <p class="video-caption has-text-centered">Grasping a mug by its handle and placing it on the target base.</p>
+    </div>
+  </section>
+  <section class="section paper-section is-soft" id="abstract">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title">Abstract</h2>
+      <div class="content paper-text"><p>Robotic manipulation often requires identifying functional parts, such as a mug handle or a hammer head. However, features attached to observed 3D points can vary with viewpoint and sensor noise, giving a policy inconsistent representations of the same part. We propose an object-centric semantic field to provide more consistent part-aware features for manipulation. We use the observed object cloud to build a continuous field, then read features from this field at 3D locations independently resampled from the cloud. Each feature is inferred from the whole object observation rather than taken directly from an individual input point. Part supervision teaches the field to distinguish functional regions and align corresponding parts across object instances, while training with perturbed observations encourages consistent predictions. The queried coordinates and features form semantic point clouds that are supplied to a DP3-based policy. We evaluate the approach on four RoboTwin simulation tasks and four real-world bimanual tasks, achieving average success rates of 69.3% and 67.5%, respectively. These exceed the strongest evaluated baseline in each setting by 7.0 and 32.5 percentage points, with real-world evaluation performed on held-out objects. These results highlight the value of stable, object-conditioned semantic fields for manipulation across object instances and varying observations.</p></div>
+    </div>
+  </section>
+  <section class="section paper-section" id="core-idea">
+    <div class="container is-max-widescreen">
+      <div class="section-heading"><h2 class="title is-3 section-title">Consistent Part Features Across Instances</h2>
+      <p>Different objects, corresponding functional parts: mug handles and bodies remain distinguishable across instances.</p></div>
+      <figure class="figure-panel compact-figure"><img src="static/images/first.png" alt="Real robot platform and semantic features on reference and held-out objects" loading="lazy"><figcaption>The real-world platform and field features on mugs and spoons. Corresponding parts exhibit similar feature colors across instances, while different parts remain distinguishable.</figcaption></figure>
+      <figure class="figure-panel "><img src="static/images/figure1-teaser.png" alt="Comparison of point-attached representations and a queryable semantic field" loading="lazy"><figcaption>The observed object cloud conditions a semantic field. Features are read at independently resampled locations; query coordinates are not fixed across observations.</figcaption></figure>
+    </div>
+  </section>
+  <section class="section paper-section is-soft" id="method">
+    <div class="container is-max-widescreen">
+      <h2 class="title is-3 section-title">Method Overview</h2>
+      <figure class="figure-panel "><img src="static/images/figure2-method-overview.png" alt="Semantic field construction, query decoding, and policy learning" loading="lazy"><figcaption>Support features build an object feature cache. The field decodes part embeddings at resampled query locations; their coordinates and features form semantic point clouds for a DP3-based policy.</figcaption></figure>
+      <div class="method-grid">
+        <article><h3>Construct the Field</h3><p>A frozen Utonia encoder provides geometric features. A learned adapter, three feature grids, and a global feature supply object context for query decoding.</p></article>
+        <article><h3>Learn Part Semantics</h3><p>PartNext labels supervise one field per category. Part classification, cross-instance alignment, and perturbation consistency encourage distinct yet consistent part features.</p></article>
+        <article><h3>Train the Policy</h3><p>The field is frozen. Separate PointNets encode the scene and semantic object clouds; their features and encoded robot state condition a DP3 action-denoising network.</p></article>
       </div>
-    </section>
-
-    <section class="section teaser-section" id="main-video">
-      <div class="container is-max-desktop">
-        <div class="media-shell">
-          <video controls muted playsinline preload="metadata" class="teaser-video">
-            <source src="static/videos/full_video.mp4" type="video/mp4">
-          </video>
-        </div>
-        <p class="video-caption has-text-centered">
-          We condition a continuous semantic field on observed object geometry and query part-aware embeddings at explicit 3D locations, producing semantic point clouds for downstream manipulation policies.
-        </p>
-      </div>
-    </section>
-
-    <section class="section paper-section is-soft" id="abstract">
-      <div class="container is-max-desktop">
-        <h2 class="title is-3 section-title">Abstract</h2>
-        <div class="content paper-text">
-          <p>
-            Generalizable robot manipulation requires stable 3D understanding of functional object parts, such as handles, tool heads, openings, and graspable regions. Raw point clouds provide geometry but lack explicit part semantics, and their sampled points vary with viewpoint, sensor configuration, and object instance. Existing 2D feature lifting and discrete 3D point-wise features enrich point clouds with semantics, but the resulting features remain attached to observation-dependent samples. We propose an object-centric continuous semantic field that conditions on an object point cloud and reads part-aware semantic embeddings at explicit 3D query locations. The field is trained from part-annotated object models and then frozen to generate semantic point clouds as object-level conditioning for manipulation policies. Experiments on RoboTwin simulation tasks and real-world bimanual object manipulation show that our representation provides more stable functional-part cues and improves policy performance over raw point-cloud, 2D feature lifting, and 3D point-wise feature baselines.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section paper-section" id="core-idea">
-      <div class="container is-max-widescreen">
-        <div class="section-heading">
-          <h2 class="title is-3 section-title">Core Idea</h2>
-          <p>Move from point-attached semantics to an object-conditioned semantic field that can be queried at controlled 3D locations.</p>
-        </div>
-        <figure class="figure-panel hero-figure">
-          <img src="static/images/figure1-teaser.png" alt="Teaser of object-centric continuous semantic field">
-          <figcaption>
-            <strong>Figure 1.</strong> Existing 2D feature lifting and discrete 3D point-wise features attach semantics to observation-dependent samples. We instead condition a queryable semantic field on the object point cloud and read part-aware embeddings at explicit 3D query locations, producing semantic point clouds for downstream policy learning.
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="section paper-section is-soft" id="method">
-      <div class="container is-max-widescreen">
-        <div class="section-heading">
-          <h2 class="title is-3 section-title">Method Overview</h2>
-          <p>Object conditioning and semantic readout are separated: support points describe the instance, while query locations decide where semantics are evaluated.</p>
-        </div>
-
-        <figure class="figure-panel">
-          <img src="static/images/figure2-method-overview.png" alt="Overview of object-centric continuous semantic field">
-          <figcaption>
-            <strong>Figure 2.</strong> Support points condition an object-specific tri-plane cache; 3D query locations read out part-aware embeddings and training-time part logits. The frozen field is then queried at resampled object locations to export semantic point clouds for downstream manipulation policies.
-          </figcaption>
-        </figure>
-
-        <div class="method-grid">
-          <article>
-            <span class="method-index">1</span>
-            <h3>Condition on the Object</h3>
-            <p>Observed support points encode the current object instance and construct a queryable object-level field.</p>
-          </article>
-          <article>
-            <span class="method-index">2</span>
-            <h3>Query Explicit Locations</h3>
-            <p>Semantic embeddings are read at controlled 3D coordinates instead of being tied to sensor samples.</p>
-          </article>
-          <article>
-            <span class="method-index">3</span>
-            <h3>Export Semantic Point Clouds</h3>
-            <p>Coordinates and embeddings are paired as policy-ready semantic point clouds for manipulation.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section paper-section" id="results">
-      <div class="container is-max-widescreen">
-        <div class="section-heading">
-          <h2 class="title is-3 section-title">Results</h2>
-          <p>Across simulation and real-world evaluations, queryable object-centric semantics improve success on tasks that require functional-part localization.</p>
-        </div>
-
-        <div class="results-layout">
-          <div class="result-group">
-            <h3 class="title is-4">RoboTwin Simulation</h3>
-            <div class="metric-grid">
-              <div class="metric-card"><span>Hang Mug</span><strong>37%</strong></div>
-              <div class="metric-card"><span>Beat Hammer</span><strong>84%</strong></div>
-              <div class="metric-card"><span>Open Microwave</span><strong>35%</strong></div>
-              <div class="metric-card"><span>Put Cabinet</span><strong>83%</strong></div>
-            </div>
-          </div>
-          <div class="result-group">
-            <h3 class="title is-4">Real Robot</h3>
-            <div class="metric-grid">
-              <div class="metric-card"><span>Grasp Mug</span><strong>17/20</strong></div>
-              <div class="metric-card"><span>Beat Cube</span><strong>17/20</strong></div>
-              <div class="metric-card"><span>Stir Mug</span><strong>10/20</strong></div>
-              <div class="metric-card"><span>Pour Water</span><strong>10/20</strong></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-heading sub-heading" id="representation-analysis">
-          <h3 class="title is-4">Representation Analysis</h3>
-          <p>Cross-instance feature colors are more consistent for corresponding functional parts.</p>
-        </div>
-        <figure class="figure-panel">
-          <img src="static/images/figure4-feature-visualization.png" alt="Cross-instance feature visualization on real observations">
-          <figcaption>
-            <strong>Figure 4.</strong> Colors are obtained from a shared PCA per method and category. Compared with 2D lifting and 3D point-wise features, our field yields more consistent part-level colors across mug and hammer instances.
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="section paper-section is-soft" id="tasks-setup">
-      <div class="container is-max-widescreen">
-        <div class="section-heading">
-          <h2 class="title is-3 section-title">Tasks & Setup</h2>
-          <p>The evaluation spans simulation tasks, real-world held-out object splits, and a bimanual robot platform with calibrated RGB-D sensing.</p>
-        </div>
-
-        <div class="figure-grid">
-          <figure class="figure-panel figure-card wide-card">
-            <img src="static/images/figure5-simulation-tasks.png" alt="Simulation task examples used in evaluation">
-            <figcaption>
-              <strong>Figure 5.</strong> Simulation task examples used in our evaluation. These tasks require localizing functional object parts, such as mug handles, hammer heads, articulated handles, and placement regions, to complete object-centric manipulation.
-            </figcaption>
-          </figure>
-          <figure class="figure-panel figure-card">
-            <img src="static/images/figure3-real-world-tasks.png" alt="Real-world tasks and object splits">
-            <figcaption>
-              <strong>Figure 3.</strong> Policies are trained on training object instances and evaluated on held-out test instances for mug grasping, tool-object contact, grasping and stirring, and pouring-related manipulation.
-            </figcaption>
-          </figure>
-          <figure class="figure-panel figure-card">
-            <img src="static/images/figure6-real-world-setup.png" alt="Real-world experimental setup">
-            <figcaption>
-              <strong>Figure 6.</strong> The bimanual robot platform is equipped with two calibrated ZED 2i RGB-D cameras, and the evaluated objects include mugs, hammers, stirring tools, and containers used in the real-world manipulation tasks.
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
+    </div>
+  </section>
+  <section class="section paper-section" id="results">
+    <div class="container is-max-widescreen">
+      <h2 class="title is-3 section-title">Results</h2>
+      <h3 class="title is-4">RoboTwin Simulation</h3>
+      <p class="result-summary">69.3% average success, 7.0 percentage points above the strongest evaluated baseline.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Simulation success rates (%), evaluated over 100 episodes per seed."><table><caption>Simulation success rates (%), evaluated over 100 episodes per seed.</caption><thead><tr><th scope="col">Method</th><th scope="col">Hang Mug</th><th scope="col">Beat Hammer</th><th scope="col">Open Microwave</th><th scope="col">Put Cabinet</th><th scope="col">Average</th></tr></thead><tbody><tr><th scope="row">DP3</th><td>23.0</td><td>72.0</td><td>62.0</td><td>72.0</td><td>57.3</td></tr><tr><th scope="row">DINOv2 Lifting</th><td>23.0</td><td>78.0</td><td>58.0</td><td>68.0</td><td>56.8</td></tr><tr><th scope="row">Utonia Point-wise</th><td>31.0</td><td>77.0</td><td>65.0</td><td>76.0</td><td>62.3</td></tr><tr><th scope="row">G3Flow</th><td>25.0</td><td>78.0</td><td>64.0</td><td>78.0</td><td>61.3</td></tr><tr class="ours"><th scope="row">Ours</th><td>37.0</td><td>84.0</td><td>73.0</td><td>83.0</td><td>69.3</td></tr></tbody></table></div>
+      <h3 class="title is-4">Real-World Manipulation</h3>
+      <p class="result-summary">67.5% average success on held-out objects, a 32.5 percentage-point improvement over the strongest evaluated baseline.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Real-world success rates (%), with 20 trials per task."><table><caption>Real-world success rates (%), with 20 trials per task.</caption><thead><tr><th scope="col">Method</th><th scope="col">Grasp Mug</th><th scope="col">Beat Cube</th><th scope="col">Stir Mug</th><th scope="col">Pour Water</th><th scope="col">Average</th></tr></thead><tbody><tr><th scope="row">DP3</th><td>35</td><td>40</td><td>15</td><td>20</td><td>27.5</td></tr><tr><th scope="row">DINOv2 Lifting</th><td>35</td><td>45</td><td>25</td><td>25</td><td>32.5</td></tr><tr><th scope="row">Utonia Point-wise</th><td>35</td><td>45</td><td>35</td><td>25</td><td>35.0</td></tr><tr class="ours"><th scope="row">Ours</th><td>85</td><td>85</td><td>50</td><td>50</td><td>67.5</td></tr></tbody></table></div>
+      <div class="section-heading sub-heading" id="representation-analysis"><h3 class="title is-4">Representation Analysis</h3></div>
+      <figure class="figure-panel "><img src="static/images/simulation-feature.png" alt="Field features across five simulated object categories" loading="lazy"><figcaption>Simulation feature visualizations show part distinctions and corresponding part features across instances. Each category uses a shared PCA projection.</figcaption></figure>
+      <figure class="figure-panel "><img src="static/images/figure4-feature-visualization.png" alt="Cross-instance feature comparison on real mugs and hammers" loading="lazy"><figcaption>Colors use a shared PCA basis per method and category. Our field shows consistent part-level patterns across instances. Colors should not be compared between different methods or categories.</figcaption></figure>
+    </div>
+  </section>
+  <section class="section paper-section is-soft" id="tasks-setup">
+    <div class="container is-max-widescreen">
+      <h2 class="title is-3 section-title">Tasks &amp; Objects</h2>
+      <figure class="figure-panel "><img src="static/images/figure5-simulation-tasks.png" alt="Four RoboTwin simulation tasks" loading="lazy"><figcaption>Beat Hammer, Hanging Mug, Open Microwave, and Put Object into Cabinet. Policies use 50 demonstrations per task and the standard benchmark split.</figcaption></figure>
+      <figure class="figure-panel "><img src="static/images/real-world-objects.png" alt="Demonstration and held-out evaluation objects" loading="lazy"><figcaption>Left: objects used for policy-training demonstrations. Right: held-out hammer, teapot, mug, and spoon instances with different geometry and appearance.</figcaption></figure>
+      <figure class="figure-panel "><img src="static/images/figure3-real-world-tasks.png" alt="Real-world bimanual manipulation examples" loading="lazy"><figcaption>Grasp Mug: grasp the handle and place the mug on its base. Beat Cube: grasp the hammer handle and strike with its head. Stir Mug: hold the mug and spoon by their handles and stir with the spoon head. Pour Water: grasp the vessel handle and pour through its spout into the mug.</figcaption></figure>
+    </div>
+  </section>
     <section class="section paper-section" id="real-world-videos">
       <div class="container is-max-widescreen">
         <div class="section-heading">
           <h2 class="title is-3 section-title">Real-World Videos</h2>
-          <p>Representative rollouts from the provided video set, grouped by task.</p>
+          <p>Real-world bimanual manipulation on held-out object instances.</p>
         </div>
 
         <div class="video-group">
@@ -226,7 +98,7 @@
         </div>
 
         <div class="video-group">
-          <h3 class="title is-4">Beat Hammer</h3>
+          <h3 class="title is-4">Beat Cube</h3>
           <div class="video-grid">
             <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/hammer1.mp4" type="video/mp4"></video><p>Hammer 1</p></article>
             <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/hammer2.mp4" type="video/mp4"></video><p>Hammer 2</p></article>
@@ -257,50 +129,8 @@
       </div>
     </section>
 
-    <section class="section paper-section is-soft" id="resources">
-      <div class="container is-max-desktop">
-        <h2 class="title is-3 section-title">Resources</h2>
-        <div class="resource-grid">
-          <a class="resource-card" href="static/pdfs/beyond-point-attached-semantics.pdf" target="_blank" rel="noopener">
-            <span class="icon"><i class="fas fa-file-pdf"></i></span>
-            <strong>Paper PDF</strong>
-            <small>Local manuscript file</small>
-          </a>
-          <a class="resource-card" href="#real-world-videos">
-            <span class="icon"><i class="fas fa-video"></i></span>
-            <strong>Videos</strong>
-            <small>All provided real-world rollouts</small>
-          </a>
-          <a class="resource-card" href="https://github.com/ZainZh/beyond-point-attached-semantics" target="_blank" rel="noopener">
-            <span class="icon"><i class="fab fa-github"></i></span>
-            <strong>Code</strong>
-            <small>GitHub repository</small>
-          </a>
-        </div>
-      </div>
-    </section>
 
-    <section class="section paper-section" id="bibtex">
-      <div class="container is-max-desktop content">
-        <h2 class="title is-3 section-title">BibTeX</h2>
-        <pre class="bibtex"><code>@inproceedings{sun2026beyondpointattached,
-  title={Beyond Point-Attached Semantics: Object-Centric Semantic Fields for Generalizable Manipulation},
-  author={Sun, Zheng and Zhang, Lerong and Li, Zhihao and Li, Zhuo and Rouxel, Quentin and Chen, Fei},
-  booktitle={Proceedings of the 10th Conference on Robot Learning (CoRL)},
-  year={2026}
-}</code></pre>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer site-footer">
-    <div class="container is-max-desktop">
-      <div class="content has-text-centered">
-        <p>
-          This page was built from the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>, adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page.
-        </p>
-      </div>
-    </div>
-  </footer>
+</main>
+<footer class="footer site-footer"><div class="container has-text-centered"><p>Anonymous supplementary material</p></div></footer>
 </body>
 </html>

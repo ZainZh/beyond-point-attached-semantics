@@ -61,7 +61,7 @@ a:hover {
   max-width: 980px;
   margin: 0 auto 1.25rem;
   color: var(--ink);
-  font-size: clamp(2rem, 4vw, 3.75rem);
+  font-size: 2.5rem;
   line-height: 1.08;
   letter-spacing: 0;
 }
@@ -248,11 +248,9 @@ a:hover {
 }
 
 .method-grid article {
-  min-height: 13rem;
+  min-height: 10rem;
   padding: 1.25rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-top: 2px solid var(--teal);
 }
 
 .method-index {
@@ -400,6 +398,19 @@ a:hover {
   color: var(--muted);
   font-size: 0.95rem;
 }
+
+.review-label { color: var(--muted); margin-bottom: 1rem; }
+.table-scroll { overflow-x: auto; margin: 1rem 0 2.5rem; }
+.table-scroll table { width: 100%; min-width: 660px; border-collapse: collapse; }
+.table-scroll caption { text-align: left; color: var(--muted); margin-bottom: 0.75rem; }
+.table-scroll th, .table-scroll td { padding: 0.8rem; border-bottom: 1px solid var(--line); text-align: right; }
+.table-scroll th:first-child { text-align: left; }
+.table-scroll thead { background: var(--soft); }
+.table-scroll .ours { background: #e8f4f0; font-weight: 700; }
+.result-summary { color: var(--teal-dark); }
+.figure-panel { border: 0; border-radius: 0; }
+.publication-hero .hero-body { padding-top: 2rem; }
+.method-grid h3 { font-weight: 700; margin-bottom: 0.5rem; }
 
 @media screen and (max-width: 1024px) {
   .method-grid,
