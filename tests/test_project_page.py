@@ -1,6 +1,7 @@
 import unittest
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 
 class PageParser(HTMLParser):
@@ -33,7 +34,7 @@ class ProjectPageTest(unittest.TestCase):
     def test_local_assets_and_anchors(self):
         for asset in self.page.assets:
             self.assertTrue(asset.startswith('static/'), asset)
-            self.assertTrue((ROOT / asset).is_file(), asset)
+            self.assertTrue((ROOT / urlsplit(asset).path).is_file(), asset)
         for link in self.page.links: self.assertIn(link[1:], self.page.ids)
         for target in self.page.controls: self.assertIn(target, self.page.ids)
         self.assertEqual(len(self.page.ids), len(set(self.page.ids)))
@@ -43,6 +44,12 @@ class ProjectPageTest(unittest.TestCase):
         for name in ['first.png', 'real-world-objects.png', 'simulation-feature.png']:
             self.assertTrue(any(a.endswith(name) for a in self.page.assets))
         self.assertEqual(18, sum(a.endswith('.mp4') for a in self.page.assets))
+
+    def test_stylesheet_cache_version(self):
+        stylesheets = [urlsplit(asset) for asset in self.page.assets
+                       if urlsplit(asset).path == 'static/css/index.css']
+        self.assertEqual(1, len(stylesheets))
+        self.assertTrue(parse_qs(stylesheets[0].query).get('v'))
 
     def test_video_accessibility_and_loading(self):
         self.assertEqual(18, len(self.page.videos))
