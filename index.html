@@ -1,136 +1,307 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Anonymous supplementary material: object-centric semantic fields for robust robotic manipulation. Experimental videos, method overview, and results.">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Object-centric semantic fields for robust manipulation. Anonymous research overview, method, held-out-object demonstrations, and experimental results.">
   <meta property="og:title" content="Beyond Point-Attached Semantics">
   <meta property="og:description" content="Stable Object-Centric Semantic Fields for Robust Manipulation">
   <meta property="og:image" content="static/images/first.png">
-  <title>Beyond Point-Attached Semantics: Stable Object-Centric Semantic Fields for Robust Manipulation</title>
-  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <meta name="theme-color" content="#ffffff">
+  <title>Beyond Point-Attached Semantics</title>
   <link rel="stylesheet" href="static/css/index.css">
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/index.js"></script>
 </head>
-<body>
+<body id="top">
+<a class="skip-link" href="#overview">Skip to the research</a>
+<header class="site-header">
+  <div class="header-inner wrap">
+    <a class="wordmark" href="#top" aria-label="Beyond Point-Attached Semantics, back to top"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Beyond Point-Attached Semantics</span></a>
+    <button class="icon-button menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="main-nav"><i class="fas fa-bars" aria-hidden="true"></i></button>
+    <nav id="main-nav" aria-label="Main navigation">
+      <a href="#overview">The idea</a><a href="#film">Overview video</a><a href="#method">Method</a><a href="#real-world-videos">Real world</a><a href="#results">Results</a>
+    </nav>
+  </div>
+</header>
 <main>
-  <header class="publication-hero">
-    <div class="hero-body container is-max-desktop has-text-centered">
-      <p class="review-label">Anonymous supplementary material</p>
-      <h1 class="title publication-title">Beyond Point-Attached Semantics:<br>Stable Object-Centric Semantic Fields for Robust Manipulation</h1>
-      <nav class="publication-links" aria-label="Page sections">
-        <a class="button is-dark" href="#real-world-videos">Experiment Videos</a>
-        <a class="button is-dark" href="#method">Method</a>
-        <a class="button is-dark" href="#results">Results</a>
-      </nav>
+  <section class="hero" aria-labelledby="project-title">
+    <video id="cover-video" class="hero-video" autoplay muted loop playsinline preload="metadata" poster="static/images/mug_1.jpg" aria-label="Our policy grasps and places a held-out mug">
+      <source src="static/videos/mug_1.mp4" type="video/mp4">
+    </video>
+    <div class="hero-shade"></div>
+    <div class="hero-content wrap">
+      <p class="eyebrow">Anonymous supplementary material</p>
+      <h1 id="project-title">Beyond Point-Attached<br><span>Semantics</span></h1>
+      <p class="hero-subtitle">Stable Object-Centric Semantic Fields for Robust Manipulation</p>
+      <a class="hero-link" href="#film"><i class="fas fa-play" aria-hidden="true"></i> Watch the research overview <span>2:44</span></a>
     </div>
-  </header>
-  <section class="section teaser-section" id="main-video">
-    <div class="container is-max-desktop">
-      <video controls muted playsinline preload="metadata" class="teaser-video" aria-label="Grasp Mug experiment">
-        <source src="static/videos/mug0.mp4" type="video/mp4">
+    <div class="hero-bottom wrap">
+      <a class="explore-link" href="#overview">Explore the research <i class="fas fa-arrow-down" aria-hidden="true"></i></a>
+      <div class="cover-meta"><span>Grasp Mug <span class="muted-light">Held-out object · 3×</span></span><button id="cover-toggle" class="icon-button light" type="button" aria-label="Pause background video" title="Pause background video"><i class="fas fa-pause" aria-hidden="true"></i></button></div>
+    </div>
+  </section>
+
+  <section id="overview" class="section wrap" aria-labelledby="idea-heading">
+    <p class="eyebrow section-index">01 / The idea</p>
+    <div class="section-intro">
+      <h2 id="idea-heading">Different observations.<br>Consistent part semantics.</h2>
+      <div class="intro-copy"><p>A robot needs to know not just where an object is, but which part to use. A hammer is grasped by its handle and makes contact with its head, even when its shape or appearance changes.</p><p>Yet features attached to observed points can change with viewpoint, sensor noise, and sampling. We learn an <strong>object-centric semantic field</strong> that uses object context to provide more consistent part-aware features for a manipulation policy.</p></div>
+    </div>
+    <ol class="concept-flow">
+      <li><span>01</span><strong>Observe the object</strong><p>A partial point cloud</p></li>
+      <li><span>02</span><strong>Build a semantic field</strong><p>Geometry with part supervision</p></li>
+      <li><span>03</span><strong>Query part features</strong><p>Resampled 3D locations</p></li>
+      <li><span>04</span><strong>Condition the policy</strong><p>Semantic clouds + scene + state</p></li>
+    </ol>
+    <figure class="paper-figure">
+      <button class="figure-zoom" type="button" data-figure aria-label="Enlarge the semantic field illustration"><img src="static/images/figure1-teaser.png" alt="Point-attached descriptors contrasted with an object-conditioned semantic field and its part-aware readout" loading="lazy" width="1600" height="750"><span class="expand-icon"><i class="fas fa-expand" aria-hidden="true"></i></span></button>
+      <figcaption>The field changes how semantics are read, not where the robot observes. Query locations are resampled from the current object cloud; they are not fixed canonical points.</figcaption>
+    </figure>
+    <details id="abstract" class="disclosure"><summary>Read the abstract <i class="fas fa-plus" aria-hidden="true"></i></summary>
+      <p>Robotic manipulation often requires identifying functional parts, such as a mug handle or a hammer head. However, features attached to observed 3D points can vary with viewpoint and sensor noise, giving a policy inconsistent representations of the same part. We propose an object-centric semantic field to provide more consistent part-aware features for manipulation. We use the observed object cloud to build a continuous field, then read features from this field at 3D locations independently resampled from the cloud. Each feature uses the sampled object support as context, rather than directly reusing an individual point descriptor. Part classification distinguishes functional regions, cross-instance alignment brings corresponding part features together, and perturbation consistency encourages similar features under observation changes. The queried coordinates and features form semantic point clouds that are supplied to a DP3-based policy. We evaluate the approach on four RoboTwin simulation tasks and four real-world bimanual tasks, achieving average success rates of 69.3% and 67.5%, respectively. These improve on Utonia Point-wise by 7.0 and 32.5 percentage points, respectively, with real-world tests on held-out objects. A point-wise control with matched part supervision scores 63.5% in simulation, compared with our 69.3%. These results highlight the value of stable, object-conditioned semantic fields for manipulation across object instances and varying observations.</p>
+    </details>
+  </section>
+
+  <section id="film" class="section soft" aria-labelledby="film-heading"><div class="wrap">
+    <p class="eyebrow section-index">02 / Research overview</p>
+    <div class="heading-row"><h2 id="film-heading">The method, in motion.</h2><p>From the representation to the robot.</p></div>
+    <video id="overview-film" class="overview-film" controls playsinline preload="none" poster="static/images/overview-poster.jpg" aria-label="Narrated research overview with English subtitles"><source src="static/videos/research-overview.mp4" type="video/mp4">Your browser does not support embedded video.</video>
+    <p class="media-caption"><span>2 min 44 sec</span><span>English narration · Subtitles included</span></p>
+  </div></section>
+
+  <section id="method" class="section wrap" aria-labelledby="method-heading">
+    <p class="eyebrow section-index">03 / Method</p>
+    <div class="section-intro"><h2 id="method-heading">Object context.<br>Part-aware field readout.</h2><p class="intro-copy">A frozen 3D encoder supplies geometry. Part supervision gives that geometry meaning. A continuous field brings both together at the locations used by the policy.</p></div>
+    <figure class="paper-figure method-figure"><button class="figure-zoom" type="button" data-figure aria-label="Enlarge the complete method diagram"><img src="static/images/figure2-method-overview.png" alt="Method architecture: support encoding with frozen Utonia, tri-plane object cache, field querying, three training losses, and DP3 policy conditioning" loading="lazy"><span class="expand-icon"><i class="fas fa-expand" aria-hidden="true"></i></span></button><figcaption>Two training stages: learn the field from part-annotated 3D models, then freeze it while learning the manipulation policy from demonstrations.</figcaption></figure>
+    <div class="method-steps">
+      <article><span class="step-number">01 / Encode</span><h3>Build object context</h3><p>A frozen Utonia backbone extracts support features. A trainable adapter maps them into an object feature cache with three spatial feature planes and a pooled global feature.</p></article>
+      <article><span class="step-number">02 / Learn</span><h3>Distinguish and align parts</h3><p>The decoder reads features at resampled query locations. PartNext labels supervise part classification; cross-instance alignment and perturbation consistency act on the embeddings.</p></article>
+      <article><span class="step-number">03 / Act</span><h3>Learn from demonstrations</h3><p>Separate PointNets encode scene and semantic object clouds. Their features and the robot state condition a DP3 policy. The semantic field stays frozen during policy training.</p></article>
+    </div>
+    <p class="method-boundary"><span class="small-dot"></span> A different object representation. The same action representation and diffusion learning objective.</p>
+  </section>
+
+  <section id="real-world-videos" class="section soft" aria-labelledby="real-heading"><div class="wrap">
+    <p class="eyebrow section-index">04 / Real-world manipulation</p>
+    <div class="section-intro"><h2 id="real-heading">One task policy.<br>Different held-out objects.</h2><p class="intro-copy">Each task policy learns from 50 demonstrations with designated training objects. At test time, it is applied to unseen physical instances without object-specific retraining.</p></div>
+    <div class="tabs task-tabs" role="tablist" aria-label="Real-world task"><button type="button" id="tab-mug" role="tab" aria-selected="true" aria-controls="task-mug">Grasp Mug</button>
+<button type="button" id="tab-hammer" role="tab" aria-selected="false" aria-controls="task-hammer" tabindex="-1">Beat Cube</button>
+<button type="button" id="tab-stir" role="tab" aria-selected="false" aria-controls="task-stir" tabindex="-1">Stir Mug</button>
+<button type="button" id="tab-pour" role="tab" aria-selected="false" aria-controls="task-pour" tabindex="-1">Pour Water</button></div>
+    <div class="demo-toolbar">
+      <div class="demo-actions"><button id="group-play" class="text-button primary" type="button"><i class="fas fa-play" aria-hidden="true"></i><span>Play all four</span></button><button id="group-restart" class="icon-button" type="button" aria-label="Replay all four videos" title="Replay all four videos"><i class="fas fa-redo" aria-hidden="true"></i></button></div><span>Selected executions · 3× playback</span>
+    </div>
+    <div class="task-panel" id="task-mug" role="tabpanel" aria-labelledby="tab-mug">
+  <div class="demo-grid">
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/mug_1.jpg" aria-label="Grasp Mug, held-out mug 1">
+        <source src="static/videos/mug_1.mp4" type="video/mp4">
       </video>
-      <p class="video-caption has-text-centered">Grasping a mug by its handle and placing it on the target base.</p>
+      <figcaption><span class="instance-index">01</span> Held-out mug 1</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/mug_2.jpg" aria-label="Grasp Mug, held-out mug 2">
+        <source src="static/videos/mug_2.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">02</span> Held-out mug 2</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/mug_3.jpg" aria-label="Grasp Mug, held-out mug 3">
+        <source src="static/videos/mug_3.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">03</span> Held-out mug 3</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/mug_4.jpg" aria-label="Grasp Mug, held-out mug 4">
+        <source src="static/videos/mug_4.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">04</span> Held-out mug 4</figcaption>
+    </figure>
+  </div>
+  <aside class="task-summary">
+    <span class="eyebrow">The task</span><h3>Grasp Mug</h3><p>Grasp the mug by its handle and place it stably on the target base.</p>
+    <div class="task-score"><strong>85<span>%</span></strong><span>Success on held-out objects</span></div>
+    <p class="trial-count">17 successful trials out of 20<br>Utonia Point-wise: 35%</p>
+    <p class="task-note">Different mug shapes and handle geometries, with the same trained policy.</p>
+  </aside>
+</div>
+<div class="task-panel" id="task-hammer" role="tabpanel" aria-labelledby="tab-hammer" hidden>
+  <div class="demo-grid">
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/hammer_1.jpg" aria-label="Beat Cube, held-out hammer 1">
+        <source src="static/videos/hammer_1.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">01</span> Held-out hammer 1</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/hammer_2.jpg" aria-label="Beat Cube, held-out hammer 2">
+        <source src="static/videos/hammer_2.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">02</span> Held-out hammer 2</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/hammer_3.jpg" aria-label="Beat Cube, held-out hammer 3">
+        <source src="static/videos/hammer_3.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">03</span> Held-out hammer 3</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/hammer_4.jpg" aria-label="Beat Cube, held-out hammer 4">
+        <source src="static/videos/hammer_4.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">04</span> Held-out hammer 4</figcaption>
+    </figure>
+  </div>
+  <aside class="task-summary">
+    <span class="eyebrow">The task</span><h3>Beat Cube</h3><p>Grasp the hammer by its handle and strike the cube with its head.</p>
+    <div class="task-score"><strong>85<span>%</span></strong><span>Success on held-out objects</span></div>
+    <p class="trial-count">17 successful trials out of 20<br>Utonia Point-wise: 45%</p>
+    <p class="task-note">The functional roles stay the same as the hammer's shape and appearance change.</p>
+  </aside>
+</div>
+<div class="task-panel" id="task-stir" role="tabpanel" aria-labelledby="tab-stir" hidden>
+  <div class="demo-grid">
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/stir_1.jpg" aria-label="Stir Mug, held-out object pair 1">
+        <source src="static/videos/stir_1.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">01</span> Held-out object pair 1</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/stir_2.jpg" aria-label="Stir Mug, held-out object pair 2">
+        <source src="static/videos/stir_2.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">02</span> Held-out object pair 2</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/stir_3.jpg" aria-label="Stir Mug, held-out object pair 3">
+        <source src="static/videos/stir_3.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">03</span> Held-out object pair 3</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/stir_4.jpg" aria-label="Stir Mug, held-out object pair 4">
+        <source src="static/videos/stir_4.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">04</span> Held-out object pair 4</figcaption>
+    </figure>
+  </div>
+  <aside class="task-summary">
+    <span class="eyebrow">The task</span><h3>Stir Mug</h3><p>Hold the mug by its handle, grasp the spoon by its handle, and stir inside the mug with the spoon head.</p>
+    <div class="task-score"><strong>50<span>%</span></strong><span>Success on held-out objects</span></div>
+    <p class="trial-count">10 successful trials out of 20<br>Utonia Point-wise: 35%</p>
+    <p class="task-note">Coordinating two arms and the functional parts of two held-out objects.</p>
+  </aside>
+</div>
+<div class="task-panel" id="task-pour" role="tabpanel" aria-labelledby="tab-pour" hidden>
+  <div class="demo-grid">
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/pour_1.jpg" aria-label="Pour Water, held-out object pair 1">
+        <source src="static/videos/pour_1.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">01</span> Held-out object pair 1</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/pour_2.jpg" aria-label="Pour Water, held-out object pair 2">
+        <source src="static/videos/pour_2.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">02</span> Held-out object pair 2</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/pour_3.jpg" aria-label="Pour Water, held-out object pair 3">
+        <source src="static/videos/pour_3.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">03</span> Held-out object pair 3</figcaption>
+    </figure>
+    <figure class="demo">
+      <video controls muted playsinline preload="none" poster="static/images/pour_4.jpg" aria-label="Pour Water, held-out object pair 4">
+        <source src="static/videos/pour_4.mp4" type="video/mp4">
+      </video>
+      <figcaption><span class="instance-index">04</span> Held-out object pair 4</figcaption>
+    </figure>
+  </div>
+  <aside class="task-summary">
+    <span class="eyebrow">The task</span><h3>Pour Water</h3><p>Grasp the teapot by its handle and pour water from its spout into the mug.</p>
+    <div class="task-score"><strong>50<span>%</span></strong><span>Success on held-out objects</span></div>
+    <p class="trial-count">10 successful trials out of 20<br>Utonia Point-wise: 25%</p>
+    <p class="task-note">The policy must relate the source spout to the receiving mug across object instances.</p>
+  </aside>
+</div>
+    <p class="protocol-note">Success rates cover all 20 trials per task, using randomly selected held-out objects, not just the executions shown here. Category-level fields are trained on PartNext models, with no scans or fine-tuning of the physical test objects.</p>
+    <details class="disclosure"><summary>Robot setup and object split <i class="fas fa-plus" aria-hidden="true"></i></summary>
+      <div class="setup-grid"><figure class="paper-figure"><button class="figure-zoom" type="button" data-figure aria-label="Enlarge the real-world robot setup"><img src="static/images/first.png" alt="Bimanual robot setup with two calibrated ZED 2i RGB-D cameras and manipulation task examples" loading="lazy"><span class="expand-icon"><i class="fas fa-expand" aria-hidden="true"></i></span></button><figcaption>Two calibrated ZED 2i cameras provide RGB-D observations for the bimanual robot.</figcaption></figure><figure class="paper-figure"><button class="figure-zoom" type="button" data-figure aria-label="Enlarge the training and held-out objects"><img src="static/images/real-world-objects.png" alt="Training and held-out mugs, hammers, spoons, and teapots" loading="lazy"><span class="expand-icon"><i class="fas fa-expand" aria-hidden="true"></i></span></button><figcaption>One training instance per category. Held-out sets contain five hammers, six teapots, six mugs, and six spoons. Stirring and pouring involve object pairs.</figcaption></figure></div>
+    </details>
+  </div></section>
+
+  <section id="results" class="section wrap" aria-labelledby="results-heading">
+    <p class="eyebrow section-index">05 / Evaluation</p>
+    <h2 id="results-heading">Better manipulation.<br>Across four tasks in each setting.</h2>
+    <div class="metrics">
+      <div><strong>69.3<span>%</span></strong><h3>Simulation success</h3><p>+7.0 points over Utonia Point-wise</p></div>
+      <div><strong>67.5<span>%</span></strong><h3>Real-world success</h3><p>+32.5 points on held-out objects</p></div>
+      <div><strong>+5.8<span>pp</span></strong><h3>Beyond matched supervision</h3><p>Over the part-supervised point-wise control</p></div>
+    </div>
+    <div class="tabs result-tabs" role="tablist" aria-label="Evaluation setting">
+      <button id="tab-real-results" type="button" role="tab" aria-selected="true" aria-controls="real-results">Real world</button>
+      <button id="tab-sim-results" type="button" role="tab" aria-selected="false" aria-controls="simulation-results" tabindex="-1">Simulation</button>
+    </div>
+    <div id="real-results" role="tabpanel" aria-labelledby="tab-real-results">
+      <div class="chart-heading"><h3>Success on unseen physical objects</h3><div class="chart-legend"><span><i class="legend-swatch ours"></i>Ours</span><span><i class="legend-swatch baseline"></i>Utonia Point-wise</span></div></div>
+      <div class="result-bars"><div class="result-bar-group"><h4>Grasp Mug</h4><div class="bar-line"><span class="bar ours" style="--value:85%"></span><b>85%</b></div><div class="bar-line"><span class="bar baseline" style="--value:35%"></span><span>35%</span></div></div>
+<div class="result-bar-group"><h4>Beat Cube</h4><div class="bar-line"><span class="bar ours" style="--value:85%"></span><b>85%</b></div><div class="bar-line"><span class="bar baseline" style="--value:45%"></span><span>45%</span></div></div>
+<div class="result-bar-group"><h4>Stir Mug</h4><div class="bar-line"><span class="bar ours" style="--value:50%"></span><b>50%</b></div><div class="bar-line"><span class="bar baseline" style="--value:35%"></span><span>35%</span></div></div>
+<div class="result-bar-group"><h4>Pour Water</h4><div class="bar-line"><span class="bar ours" style="--value:50%"></span><b>50%</b></div><div class="bar-line"><span class="bar baseline" style="--value:25%"></span><span>25%</span></div></div></div>
+      <p class="data-note">20 trials per task. Rates are percentages of successful trials; no real-world standard deviations are reported.</p>
+      <details class="disclosure"><summary>Compare all real-world baselines <i class="fas fa-plus" aria-hidden="true"></i></summary>
+        <div class="table-scroll" role="region" tabindex="0" aria-label="Real-world success rate table"><table><caption>Real-world success rates (%) on held-out objects</caption><thead><tr><th scope="col">Method</th><th scope="col">Grasp Mug</th><th scope="col">Beat Cube</th><th scope="col">Stir Mug</th><th scope="col">Pour Water</th><th scope="col">Average</th></tr></thead><tbody>
+          <tr><th scope="row">DP3</th><td>35.0</td><td>40.0</td><td>15.0</td><td>20.0</td><td>27.5</td></tr>
+          <tr><th scope="row">DINOv2 Lifting</th><td>35.0</td><td>45.0</td><td>25.0</td><td>25.0</td><td>32.5</td></tr>
+          <tr><th scope="row">Utonia Point-wise</th><td>35.0</td><td>45.0</td><td>35.0</td><td>25.0</td><td>35.0</td></tr>
+          <tr class="ours-row"><th scope="row">Ours</th><td>85.0</td><td>85.0</td><td>50.0</td><td>50.0</td><td>67.5</td></tr>
+        </tbody></table></div>
+      </details>
+    </div>
+    <div id="simulation-results" role="tabpanel" aria-labelledby="tab-sim-results" hidden>
+      <div class="chart-heading"><h3>Four RoboTwin tasks</h3><p>Single-arm and dual-arm manipulation</p></div>
+      <div class="table-scroll" role="region" tabindex="0" aria-label="Simulation success rate table"><table><caption>Simulation success rates (%), mean ± standard deviation across five training seeds</caption><thead><tr><th scope="col">Method</th><th scope="col">Hang Mug</th><th scope="col">Beat Hammer</th><th scope="col">Open Microwave</th><th scope="col">Put Cabinet</th><th scope="col">Average</th></tr></thead><tbody>
+        <tr><th scope="row">DP3</th><td>23.0 <small>±4.0</small></td><td>72.0 <small>±2.0</small></td><td>62.0 <small>±3.0</small></td><td>72.0 <small>±2.0</small></td><td>57.3</td></tr>
+        <tr><th scope="row">DINOv2 Lifting</th><td>23.0 <small>±7.0</small></td><td>78.0 <small>±5.0</small></td><td>58.0 <small>±3.0</small></td><td>68.0 <small>±4.0</small></td><td>56.8</td></tr>
+        <tr><th scope="row">Utonia Point-wise</th><td>31.0 <small>±4.0</small></td><td>77.0 <small>±2.0</small></td><td>65.0 <small>±1.0</small></td><td>76.0 <small>±1.0</small></td><td>62.3</td></tr>
+        <tr><th scope="row">G3Flow</th><td>25.0 <small>±5.0</small></td><td>78.0 <small>±5.0</small></td><td>64.0 <small>±2.0</small></td><td>78.0 <small>±3.0</small></td><td>61.3</td></tr>
+        <tr class="ours-row"><th scope="row">Ours</th><td>37.0 <small>±3.0</small></td><td>84.0 <small>±1.0</small></td><td>73.0 <small>±1.0</small></td><td>83.0 <small>±1.0</small></td><td>69.3</td></tr>
+      </tbody></table></div>
+      <p class="data-note">50 demonstrations per task; 3,000 training epochs; 100 evaluation episodes per task and seed. Simulation uses the same task and object setup for training and evaluation, unlike the held-out-object real-world protocol. G3Flow is evaluated in simulation only.</p>
+      <figure class="paper-figure"><button class="figure-zoom" type="button" data-figure aria-label="Enlarge the four simulation tasks"><img src="static/images/figure5-simulation-tasks.png" alt="RoboTwin environments for hanging a mug, using a hammer, opening a microwave, and placing an object into a cabinet" loading="lazy"><span class="expand-icon"><i class="fas fa-expand" aria-hidden="true"></i></span></button></figure>
+    </div>
+    <div class="ablation">
+      <div><p class="eyebrow">A controlled comparison</p><h3>More than part labels alone.</h3><p>The part-supervised point-wise control uses the same encoder, training data, and supervision, but reads features attached to observed points. Our field reaches <strong>69.3%</strong>, versus <strong>63.5%</strong> for this control.</p><p>This comparison tests the field-based representation against direct point-wise readout. It does not isolate query resampling alone.</p></div>
+      <div><div class="table-scroll" role="region" tabindex="0" aria-label="Representation ablation table"><table class="ablation-table"><caption>Average success across four simulation tasks (%)</caption><thead><tr><th scope="col">Variant</th><th scope="col">Mean ± SD</th></tr></thead><tbody>
+        <tr><th scope="row">Part-supervised point-wise</th><td>63.5 <small>±4.2</small></td></tr>
+        <tr><th scope="row">Without part classification</th><td>61.3 <small>±1.7</small></td></tr>
+        <tr><th scope="row">Without cross-instance alignment</th><td>64.7 <small>±2.1</small></td></tr>
+        <tr><th scope="row">Without perturbation consistency</th><td>68.9 <small>±1.8</small></td></tr>
+        <tr class="ours-row"><th scope="row">Full model</th><td>69.3 <small>±1.0</small></td></tr>
+      </tbody></table></div><p class="data-note">Standard deviations are over five per-seed task averages. The 0.4-point consistency-loss gap is smaller than the observed variation and is not conclusive evidence of a simulation benefit.</p></div>
     </div>
   </section>
-  <section class="section paper-section is-soft" id="abstract">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3 section-title">Abstract</h2>
-      <div class="content paper-text"><p>Robotic manipulation often requires identifying functional parts, such as a mug handle or a hammer head. However, features attached to observed 3D points can vary with viewpoint and sensor noise, giving a policy inconsistent representations of the same part. We propose an object-centric semantic field to provide more consistent part-aware features for manipulation. We use the observed object cloud to build a continuous field, then read features from this field at 3D locations independently resampled from the cloud. Each feature is inferred from the whole object observation rather than taken directly from an individual input point. Part supervision teaches the field to distinguish functional regions and align corresponding parts across object instances, while training with perturbed observations encourages consistent predictions. The queried coordinates and features form semantic point clouds that are supplied to a DP3-based policy. We evaluate the approach on four RoboTwin simulation tasks and four real-world bimanual tasks, achieving average success rates of 69.3% and 67.5%, respectively. These exceed the strongest evaluated baseline in each setting by 7.0 and 32.5 percentage points, with real-world evaluation performed on held-out objects. These results highlight the value of stable, object-conditioned semantic fields for manipulation across object instances and varying observations.</p></div>
-    </div>
-  </section>
-  <section class="section paper-section" id="core-idea">
-    <div class="container is-max-widescreen">
-      <div class="section-heading"><h2 class="title is-3 section-title">Consistent Part Features Across Instances</h2>
-      <p>Different objects, corresponding functional parts: mug handles and bodies remain distinguishable across instances.</p></div>
-      <figure class="figure-panel compact-figure"><img src="static/images/first.png" alt="Real robot platform and semantic features on reference and held-out objects" loading="lazy"><figcaption>The real-world platform and field features on mugs and spoons. Corresponding parts exhibit similar feature colors across instances, while different parts remain distinguishable.</figcaption></figure>
-      <figure class="figure-panel "><img src="static/images/figure1-teaser.png" alt="Comparison of point-attached representations and a queryable semantic field" loading="lazy"><figcaption>The observed object cloud conditions a semantic field. Features are read at independently resampled locations; query coordinates are not fixed across observations.</figcaption></figure>
-    </div>
-  </section>
-  <section class="section paper-section is-soft" id="method">
-    <div class="container is-max-widescreen">
-      <h2 class="title is-3 section-title">Method Overview</h2>
-      <figure class="figure-panel "><img src="static/images/figure2-method-overview.png" alt="Semantic field construction, query decoding, and policy learning" loading="lazy"><figcaption>Support features build an object feature cache. The field decodes part embeddings at resampled query locations; their coordinates and features form semantic point clouds for a DP3-based policy.</figcaption></figure>
-      <div class="method-grid">
-        <article><h3>Construct the Field</h3><p>A frozen Utonia encoder provides geometric features. A learned adapter, three feature grids, and a global feature supply object context for query decoding.</p></article>
-        <article><h3>Learn Part Semantics</h3><p>PartNext labels supervise one field per category. Part classification, cross-instance alignment, and perturbation consistency encourage distinct yet consistent part features.</p></article>
-        <article><h3>Train the Policy</h3><p>The field is frozen. Separate PointNets encode the scene and semantic object clouds; their features and encoded robot state condition a DP3 action-denoising network.</p></article>
-      </div>
-    </div>
-  </section>
-  <section class="section paper-section" id="results">
-    <div class="container is-max-widescreen">
-      <h2 class="title is-3 section-title">Results</h2>
-      <h3 class="title is-4">RoboTwin Simulation</h3>
-      <p class="result-summary">69.3% average success, 7.0 percentage points above the strongest evaluated baseline.</p>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Simulation success rates (%), evaluated over 100 episodes per seed."><table><caption>Simulation success rates (%), evaluated over 100 episodes per seed.</caption><thead><tr><th scope="col">Method</th><th scope="col">Hang Mug</th><th scope="col">Beat Hammer</th><th scope="col">Open Microwave</th><th scope="col">Put Cabinet</th><th scope="col">Average</th></tr></thead><tbody><tr><th scope="row">DP3</th><td>23.0</td><td>72.0</td><td>62.0</td><td>72.0</td><td>57.3</td></tr><tr><th scope="row">DINOv2 Lifting</th><td>23.0</td><td>78.0</td><td>58.0</td><td>68.0</td><td>56.8</td></tr><tr><th scope="row">Utonia Point-wise</th><td>31.0</td><td>77.0</td><td>65.0</td><td>76.0</td><td>62.3</td></tr><tr><th scope="row">G3Flow</th><td>25.0</td><td>78.0</td><td>64.0</td><td>78.0</td><td>61.3</td></tr><tr class="ours"><th scope="row">Ours</th><td>37.0</td><td>84.0</td><td>73.0</td><td>83.0</td><td>69.3</td></tr></tbody></table></div>
-      <h3 class="title is-4">Real-World Manipulation</h3>
-      <p class="result-summary">67.5% average success on held-out objects, a 32.5 percentage-point improvement over the strongest evaluated baseline.</p>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Real-world success rates (%), with 20 trials per task."><table><caption>Real-world success rates (%), with 20 trials per task.</caption><thead><tr><th scope="col">Method</th><th scope="col">Grasp Mug</th><th scope="col">Beat Cube</th><th scope="col">Stir Mug</th><th scope="col">Pour Water</th><th scope="col">Average</th></tr></thead><tbody><tr><th scope="row">DP3</th><td>35</td><td>40</td><td>15</td><td>20</td><td>27.5</td></tr><tr><th scope="row">DINOv2 Lifting</th><td>35</td><td>45</td><td>25</td><td>25</td><td>32.5</td></tr><tr><th scope="row">Utonia Point-wise</th><td>35</td><td>45</td><td>35</td><td>25</td><td>35.0</td></tr><tr class="ours"><th scope="row">Ours</th><td>85</td><td>85</td><td>50</td><td>50</td><td>67.5</td></tr></tbody></table></div>
-      <div class="section-heading sub-heading" id="representation-analysis"><h3 class="title is-4">Representation Analysis</h3></div>
-      <figure class="figure-panel "><img src="static/images/simulation-feature.png" alt="Field features across five simulated object categories" loading="lazy"><figcaption>Simulation feature visualizations show part distinctions and corresponding part features across instances. Each category uses a shared PCA projection.</figcaption></figure>
-      <figure class="figure-panel "><img src="static/images/figure4-feature-visualization.png" alt="Cross-instance feature comparison on real mugs and hammers" loading="lazy"><figcaption>Colors use a shared PCA basis per method and category. Our field shows consistent part-level patterns across instances. Colors should not be compared between different methods or categories.</figcaption></figure>
-    </div>
-  </section>
-  <section class="section paper-section is-soft" id="tasks-setup">
-    <div class="container is-max-widescreen">
-      <h2 class="title is-3 section-title">Tasks &amp; Objects</h2>
-      <figure class="figure-panel "><img src="static/images/figure5-simulation-tasks.png" alt="Four RoboTwin simulation tasks" loading="lazy"><figcaption>Beat Hammer, Hanging Mug, Open Microwave, and Put Object into Cabinet. Policies use 50 demonstrations per task and the standard benchmark split.</figcaption></figure>
-      <figure class="figure-panel "><img src="static/images/real-world-objects.png" alt="Demonstration and held-out evaluation objects" loading="lazy"><figcaption>Left: objects used for policy-training demonstrations. Right: held-out hammer, teapot, mug, and spoon instances with different geometry and appearance.</figcaption></figure>
-      <figure class="figure-panel "><img src="static/images/figure3-real-world-tasks.png" alt="Real-world bimanual manipulation examples" loading="lazy"><figcaption>Grasp Mug: grasp the handle and place the mug on its base. Beat Cube: grasp the hammer handle and strike with its head. Stir Mug: hold the mug and spoon by their handles and stir with the spoon head. Pour Water: grasp the vessel handle and pour through its spout into the mug.</figcaption></figure>
-    </div>
-  </section>
-    <section class="section paper-section" id="real-world-videos">
-      <div class="container is-max-widescreen">
-        <div class="section-heading">
-          <h2 class="title is-3 section-title">Real-World Videos</h2>
-          <p>Real-world bimanual manipulation on held-out object instances.</p>
-        </div>
 
-        <div class="video-group">
-          <h3 class="title is-4">Grasp Mug</h3>
-          <div class="video-grid">
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/mug0.mp4" type="video/mp4"></video><p>Mug 0</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/mug1.mp4" type="video/mp4"></video><p>Mug 1</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/mug3.mp4" type="video/mp4"></video><p>Mug 3</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/mug6.mp4" type="video/mp4"></video><p>Mug 6</p></article>
-          </div>
-        </div>
+  <section id="representation-analysis" class="section soft" aria-labelledby="representation-heading"><div class="wrap">
+    <p class="eyebrow section-index">06 / Inside the representation</p>
+    <div class="section-intro"><h2 id="representation-heading">Corresponding parts stay alike.<br>Different parts stay distinct.</h2><div class="intro-copy"><p>Qualitative feature visualizations show how functional regions are represented across object instances. Our aim is consistency for corresponding parts without losing the differences between handles, bodies, and other regions.</p></div></div>
+    <figure class="paper-figure"><button class="figure-zoom" type="button" data-figure aria-label="Enlarge real-world feature comparisons"><img src="static/images/figure4-feature-visualization.png" alt="Real-world feature visualizations comparing DINOv2 Lifting, Utonia Point-wise, and our semantic field across object instances" loading="lazy"><span class="expand-icon"><i class="fas fa-expand" aria-hidden="true"></i></span></button><figcaption>Real-world observations. A shared PCA projection is used within each method and category. Colors are not directly comparable across methods or categories, and these visualizations are qualitative, not a controlled noise-robustness test.</figcaption></figure>
+    <details class="disclosure"><summary>Part-aware features in simulation <i class="fas fa-plus" aria-hidden="true"></i></summary><figure class="paper-figure"><button class="figure-zoom" type="button" data-figure aria-label="Enlarge simulation feature visualizations"><img src="static/images/simulation-feature.png" alt="Our semantic embeddings distinguish functional parts and align corresponding regions across simulated objects of the same category" loading="lazy"><span class="expand-icon"><i class="fas fa-expand" aria-hidden="true"></i></span></button><figcaption>Corresponding regions have similar feature colors across objects within a category, while different functional parts remain distinguishable.</figcaption></figure></details>
+  </div></section>
 
-        <div class="video-group">
-          <h3 class="title is-4">Beat Cube</h3>
-          <div class="video-grid">
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/hammer1.mp4" type="video/mp4"></video><p>Hammer 1</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/hammer2.mp4" type="video/mp4"></video><p>Hammer 2</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/hammer5.mp4" type="video/mp4"></video><p>Hammer 5</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/hammer6.mp4" type="video/mp4"></video><p>Hammer 6</p></article>
-          </div>
-        </div>
-
-        <div class="video-group">
-          <h3 class="title is-4">Stir Mug</h3>
-          <div class="video-grid">
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/stirring1.mp4" type="video/mp4"></video><p>Stirring 1</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/stirring3.mp4" type="video/mp4"></video><p>Stirring 3</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/stirring4.mp4" type="video/mp4"></video><p>Stirring 4</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/stirring5.mp4" type="video/mp4"></video><p>Stirring 5</p></article>
-          </div>
-        </div>
-
-        <div class="video-group">
-          <h3 class="title is-4">Pour Water</h3>
-          <div class="video-grid">
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/pour_water.mp4" type="video/mp4"></video><p>Pour Water</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/pour_water2.mp4" type="video/mp4"></video><p>Pour Water 2</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/pour_water3.mp4" type="video/mp4"></video><p>Pour Water 3</p></article>
-            <article class="video-card"><video controls muted loop playsinline preload="metadata"><source src="static/videos/pour_water4.mp4" type="video/mp4"></video><p>Pour Water 4</p></article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
+  <section class="closing section wrap"><p class="eyebrow">Beyond Point-Attached Semantics</p><h2>Stable part semantics.<br>More reliable manipulation.</h2><p>Object-conditioned semantic fields offer a way to connect geometric observations to functional parts, helping a policy use the right part across different objects.</p><a class="inline-link" href="#film">Watch the overview <i class="fas fa-arrow-right" aria-hidden="true"></i></a></section>
 </main>
-<footer class="footer site-footer"><div class="container has-text-centered"><p>Anonymous supplementary material</p></div></footer>
+<footer class="site-footer"><div class="wrap"><span>Anonymous supplementary material</span><a href="#top">Back to top <i class="fas fa-arrow-up" aria-hidden="true"></i></a></div></footer>
+<dialog id="figure-dialog" aria-labelledby="figure-dialog-title">
+  <div class="dialog-header"><span id="figure-dialog-title">Figure</span><div><button id="figure-size" class="icon-button" type="button" aria-label="View figure at original size" title="View at original size" aria-pressed="false"><i class="fas fa-search-plus" aria-hidden="true"></i></button><button id="figure-close" class="icon-button" type="button" aria-label="Close figure" title="Close figure"><i class="fas fa-times" aria-hidden="true"></i></button></div></div>
+  <div class="dialog-image"><img alt=""></div>
+</dialog>
+<p id="media-status" class="sr-only" role="status" aria-live="polite"></p>
+<noscript><style>[role="tabpanel"][hidden]{display:block}.tabs,.demo-toolbar,.menu-toggle,#cover-toggle{display:none}.site-header nav{display:flex}</style></noscript>
 </body>
 </html>
